@@ -92,7 +92,7 @@ const HeroSection: FC = () => {
                       href={item.href}
                       className={cn(
                         buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12 rounded-full"
+                        "size-12 rounded-full text-white hover:bg-white hover:text-black transition-colors"
                       )}
                     >
                       <item.icon className="size-4" />
@@ -114,7 +114,7 @@ const HeroSection: FC = () => {
                       rel="noopener noreferrer"
                       className={cn(
                         buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12 rounded-full"
+                        "size-12 rounded-full text-white hover:bg-white hover:text-black transition-colors"
                       )}
                     >
                       <social.icon className="size-4" />
