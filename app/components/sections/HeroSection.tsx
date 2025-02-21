@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { HomeIcon, UserIcon, FolderIcon, MailIcon } from "lucide-react";
+import { HomeIcon } from "lucide-react";
 import { Dock, DockIcon } from "@/app/components/layout/Navigation";
 import Squares from "@/app/components/backgrounds/Squares";
 import SplitText from "@/app/components/text-animations/SplitText";
