@@ -37,9 +37,9 @@ const Icons = {
 
 const NAVIGATION = [
   { href: "/", icon: HomeIcon, label: "Home" },
-  { href: "/about", icon: UserIcon, label: "About" },
-  { href: "/projects", icon: FolderIcon, label: "Projects" },
-  { href: "/contact", icon: MailIcon, label: "Contact" },
+  // { href: "/about", icon: UserIcon, label: "About" },
+  // { href: "/projects", icon: FolderIcon, label: "Projects" },
+  // { href: "/contact", icon: MailIcon, label: "Contact" },
 ];
 
 const SOCIAL = {
@@ -129,6 +129,7 @@ const HeroSection: FC = () => {
           </Dock>
         </TooltipProvider>
       </div>
+      
     </section>
   );
 };
