@@ -6,6 +6,7 @@ import { HomeIcon, MousePointerClick, ChevronDown } from "lucide-react";
 import { Dock, DockIcon } from "@/app/components/layout/Navigation";
 import Squares from "@/app/components/backgrounds/Squares";
 import SplitText from "@/app/components/text-animations/SplitText";
+import { MatrixText } from "@/app/components/text-animations/MatrixText";
 import { easings, useSpring, animated } from "@react-spring/web";
 import {
   Tooltip,
@@ -93,7 +94,7 @@ const HeroSection: FC = () => {
 
       {/* Content Container */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-8 px-4">
-        <SplitText
+        {/* <SplitText
           text="Hi! I'm Lucy ^-^"
           className="text-white text-4xl lg:text-6xl font-bold"
           delay={130}
@@ -102,6 +103,14 @@ const HeroSection: FC = () => {
           easing={easings.easeOutCubic}
           threshold={0.2}
           rootMargin="-50px"
+        /> */}
+
+        <MatrixText 
+          className="text-white text-4xl lg:text-6xl font-bold"
+          text="Hello, I'm Lucy ^-^"
+          initialDelay={800}
+          letterAnimationDuration={1500}
+          letterInterval={100}
         />
 
         <TooltipProvider>
