@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+'use client';
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ReactLenis } from 'lenis/react';
+import { FC, PropsWithChildren } from 'react';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,23 +15,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Lucy Mae Tan | Portfolio",
-  description: "Lucy Mae Tan's portfolio",
+const RootLayout: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <ReactLenis root options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </ReactLenis>
+  );
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
+export default RootLayout;
