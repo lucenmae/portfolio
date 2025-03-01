@@ -15,6 +15,7 @@ import {
 } from "@/app/components/common/Tooltip";
 import { cn } from "@/app/lib/utils/utils";
 import { buttonVariants } from "@/app/components/common/Button";
+import { useLenis } from 'lenis/react';
 
 const Icons = {
   github: (props: React.SVGProps<SVGSVGElement>) => (
@@ -56,6 +57,8 @@ const SOCIAL = {
 };
 
 const HeroSection: FC = () => {
+  const lenis = useLenis();
+
   // Animated scroll indicator
   const scrollAnimation = useSpring({
     from: { transform: "translateY(0px)" },
@@ -73,8 +76,13 @@ const HeroSection: FC = () => {
 
   const handleScrollClick = () => {
     const projectsSection = document.getElementById('projects-section');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    if (projectsSection && lenis) {
+      lenis.scrollTo(projectsSection, {
+        offset: 0,
+        immediate: false,
+        duration: 1.5,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
     }
   };
 
