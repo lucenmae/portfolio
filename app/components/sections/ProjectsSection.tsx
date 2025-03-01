@@ -78,7 +78,7 @@ const ProjectsSection: FC = () => {
                 {"// Moving them from my computer to GitHub"}
               </p>
               <p className="text-green-500/70 font-mono text-sm mt-6">
-                $ git commit -m &quot;preparing something awesome...&quot;
+                $ git commit -m &quot;feat: add initial project section...&quot;
               </p>
             </div>
           </div>
