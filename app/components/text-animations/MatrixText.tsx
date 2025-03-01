@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/app/lib/utils/utils";
 
@@ -8,6 +8,7 @@ interface LetterState {
     char: string;
     isMatrix: boolean;
     isSpace: boolean;
+    isRevealed: boolean;
 }
 
 interface MatrixTextProps {
@@ -27,117 +28,90 @@ export const MatrixText = ({
 }: MatrixTextProps) => {
     const [letters, setLetters] = useState<LetterState[]>(() =>
         text.split("").map((char) => ({
-            char,
-            isMatrix: false,
+            char: "",
+            isMatrix: true,
             isSpace: char === " ",
+            isRevealed: false,
         }))
     );
-    const [isAnimating, setIsAnimating] = useState(false);
 
+    const matrixChars = "!@#$%^&*()_+-=[]{}|;:,.<>?1234567890";
     const getRandomChar = useCallback(
-        () => (Math.random() > 0.5 ? "1" : "0"),
+        () => matrixChars[Math.floor(Math.random() * matrixChars.length)],
         []
     );
 
-    const animateLetter = useCallback(
-        (index: number) => {
-            if (index >= text.length) return;
-
-            requestAnimationFrame(() => {
-                setLetters((prev) => {
-                    const newLetters = [...prev];
-                    if (!newLetters[index].isSpace) {
-                        newLetters[index] = {
-                            ...newLetters[index],
-                            char: getRandomChar(),
-                            isMatrix: true,
-                        };
-                    }
-                    return newLetters;
-                });
-
-                setTimeout(() => {
-                    setLetters((prev) => {
-                        const newLetters = [...prev];
-                        newLetters[index] = {
-                            ...newLetters[index],
-                            char: text[index],
-                            isMatrix: false,
-                        };
-                        return newLetters;
-                    });
-                }, letterAnimationDuration);
-            });
-        },
-        [getRandomChar, text, letterAnimationDuration]
-    );
-
-    const startAnimation = useCallback(() => {
-        if (isAnimating) return;
-
-        setIsAnimating(true);
-        let currentIndex = 0;
-
-        const animate = () => {
-            if (currentIndex >= text.length) {
-                setIsAnimating(false);
-                return;
-            }
-
-            animateLetter(currentIndex);
-            currentIndex++;
-            setTimeout(animate, letterInterval);
-        };
-
-        animate();
-    }, [animateLetter, text, isAnimating, letterInterval]);
+    const scrambleText = useCallback(() => {
+        setLetters((prev) =>
+            prev.map((letter) => ({
+                ...letter,
+                char: letter.isSpace ? " " : getRandomChar(),
+            }))
+        );
+    }, [getRandomChar]);
 
     useEffect(() => {
-        const timer = setTimeout(startAnimation, initialDelay);
-        return () => clearTimeout(timer);
-    }, []);
+        let scrambleInterval: NodeJS.Timeout;
+        let revealTimeout: NodeJS.Timeout;
 
-    const motionVariants = useMemo(
-        () => ({
-            matrix: {
-                color: "#00ff00",
-                textShadow: "0 2px 4px rgba(0, 255, 0, 0.5)",
-            },
-        }),
-        []
-    );
+        const startAnimation = () => {
+            // First phase: rapid matrix character changes
+            scrambleInterval = setInterval(scrambleText, 50);
+
+            // Second phase: reveal actual text one by one
+            revealTimeout = setTimeout(() => {
+                clearInterval(scrambleInterval);
+                
+                text.split("").forEach((char, index) => {
+                    setTimeout(() => {
+                        setLetters((prev) => {
+                            const newLetters = [...prev];
+                            newLetters[index] = {
+                                char,
+                                isMatrix: false,
+                                isSpace: char === " ",
+                                isRevealed: true,
+                            };
+                            return newLetters;
+                        });
+                    }, index * letterInterval);
+                });
+            }, letterAnimationDuration);
+        };
+
+        const timer = setTimeout(startAnimation, initialDelay);
+
+        return () => {
+            clearTimeout(timer);
+            clearInterval(scrambleInterval);
+            clearTimeout(revealTimeout);
+        };
+    }, [text, initialDelay, letterAnimationDuration, letterInterval, scrambleText]);
 
     return (
-        <div
-            className={cn(
-                "flex min-h-screen items-center justify-center text-black dark:text-white",
-                className
-            )}
-            aria-label="Matrix text animation"
-        >
-            <div className="h-24 flex items-center justify-center">
-                <div className="flex flex-wrap items-center justify-center">
-                    {letters.map((letter, index) => (
-                        <motion.div
-                            key={`${index}-${letter.char}`}
-                            className="font-mono text-4xl md:text-6xl w-[1ch] text-center overflow-hidden"
-                            initial="initial"
-                            animate={letter.isMatrix ? "matrix" : "normal"}
-                            variants={motionVariants}
-                            transition={{
-                                duration: 0.1,
-                                ease: "easeInOut",
-                            }}
-                            style={{
-                                display: "inline-block",
-                                fontVariantNumeric: "tabular-nums",
-                            }}
-                        >
-                            {letter.isSpace ? "\u00A0" : letter.char}
-                        </motion.div>
-                    ))}
-                </div>
+        <div className={cn("flex items-center justify-center", className)}>
+            <div className="flex flex-wrap items-center justify-center">
+                {letters.map((letter, index) => (
+                    <motion.div
+                        key={`${index}-${letter.char}`}
+                        className={cn(
+                            "font-mono text-4xl md:text-6xl w-[1ch] text-center",
+                            letter.isMatrix ? "text-green-500" : "text-white",
+                            letter.isRevealed && "text-shadow-glow"
+                        )}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{
+                            duration: 0.1,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        {letter.isSpace ? "\u00A0" : letter.char}
+                    </motion.div>
+                ))}
             </div>
         </div>
     );
 };
+
+export default MatrixText;
