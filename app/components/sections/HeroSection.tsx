@@ -5,9 +5,8 @@ import Link from "next/link";
 import { HomeIcon, MousePointerClick, ChevronDown } from "lucide-react";
 import { Dock, DockIcon } from "@/app/components/layout/Navigation";
 import Squares from "@/app/components/backgrounds/Squares";
-import SplitText from "@/app/components/text-animations/SplitText";
 import { MatrixText } from "@/app/components/text-animations/MatrixText";
-import { easings, useSpring, animated } from "@react-spring/web";
+import { useSpring, animated } from "@react-spring/web";
 import {
   Tooltip,
   TooltipContent,
