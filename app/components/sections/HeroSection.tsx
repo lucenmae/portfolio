@@ -2,11 +2,11 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, MousePointerClick, ChevronDown } from "lucide-react";
 import { Dock, DockIcon } from "@/app/components/layout/Navigation";
 import Squares from "@/app/components/backgrounds/Squares";
 import SplitText from "@/app/components/text-animations/SplitText";
-import { easings } from "@react-spring/web";
+import { easings, useSpring, animated } from "@react-spring/web";
 import {
   Tooltip,
   TooltipContent,
@@ -56,6 +56,28 @@ const SOCIAL = {
 };
 
 const HeroSection: FC = () => {
+  // Animated scroll indicator
+  const scrollAnimation = useSpring({
+    from: { transform: "translateY(0px)" },
+    to: async (next) => {
+      while (true) {
+        await next({ transform: "translateY(10px)" });
+        await next({ transform: "translateY(0px)" });
+      }
+    },
+    config: {
+      tension: 300,
+      friction: 10,
+    },
+  });
+
+  const handleScrollClick = () => {
+    const projectsSection = document.getElementById('projects-section');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative w-full h-screen">
       {/* Background Squares */}
@@ -70,10 +92,10 @@ const HeroSection: FC = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-8">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-8 px-4">
         <SplitText
           text="Hi! I'm Lucy ^-^"
-          className="text-white text-6xl font-bold"
+          className="text-white text-4xl lg:text-6xl font-bold"
           delay={130}
           animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
           animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
@@ -128,8 +150,22 @@ const HeroSection: FC = () => {
             ))}
           </Dock>
         </TooltipProvider>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <animated.div
+            style={scrollAnimation}
+            className="cursor-pointer"
+            onClick={handleScrollClick}
+          >
+            <div className="flex flex-col items-center gap-2 text-white/70 hover:text-white transition-colors">
+              <MousePointerClick className="size-5 animate-bounce" />
+              <span className="text-sm font-medium">Scroll for Projects</span>
+              <ChevronDown className="size-5" />
+            </div>
+          </animated.div>
+        </div>
       </div>
-      
     </section>
   );
 };
