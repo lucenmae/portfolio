@@ -59,18 +59,19 @@ const SOCIAL = {
 const HeroSection: FC = () => {
   const lenis = useLenis();
 
-  // Animated scroll indicator
-  const scrollAnimation = useSpring({
-    from: { transform: "translateY(0px)" },
+  // Single, subtle animation for the cursor icon
+  const cursorAnimation = useSpring({
+    from: { y: 0 },
     to: async (next) => {
       while (true) {
-        await next({ transform: "translateY(10px)" });
-        await next({ transform: "translateY(0px)" });
+        await next({ y: -4 });
+        await next({ y: 0 });
       }
     },
     config: {
-      tension: 300,
-      friction: 10,
+      tension: 340,
+      friction: 15,
+      mass: 0.7,
     },
   });
 
@@ -167,19 +168,23 @@ const HeroSection: FC = () => {
           </Dock>
         </TooltipProvider>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <animated.div
-            style={scrollAnimation}
-            className="cursor-pointer"
+        {/* Simplified Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <button 
             onClick={handleScrollClick}
+            className="flex flex-col items-center gap-3 text-white/50 hover:text-white transition-all duration-300 group"
           >
-            <div className="flex flex-col items-center gap-2 text-white/70 hover:text-white transition-colors">
-              <MousePointerClick className="size-5 animate-bounce" />
-              <span className="text-sm font-medium">Scroll for Projects</span>
-              <ChevronDown className="size-5" />
+            <animated.div style={cursorAnimation}>
+              <MousePointerClick className="size-5" />
+            </animated.div>
+            
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-sm font-medium group-hover:translate-y-0.5 transition-transform duration-300">
+                Scroll for Projects
+              </span>
+              <ChevronDown className="size-4 opacity-70 group-hover:translate-y-1 transition-transform duration-300" />
             </div>
-          </animated.div>
+          </button>
         </div>
       </div>
     </section>
