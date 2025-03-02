@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Lucy Mae Tan - Full Stack Developer',
+        alt: 'Lucy Mae Tan - Software Developer',
       },
     ],
   },
@@ -66,7 +66,7 @@ const jsonLd = {
         "https://github.com/lucenmae",
         "https://linkedin.com/in/lucymaetan",
       ],
-      jobTitle: "Full Stack Developer",
+      jobTitle: "Software Developer",
       image: {
         "@type": "ImageObject",
         "@id": "https://lucymaetan.com/#image",

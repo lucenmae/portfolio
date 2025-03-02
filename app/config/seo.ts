@@ -1,7 +1,7 @@
 export const seoConfig = {
-  defaultTitle: "Lucy Mae Tan | Full Stack Developer Portfolio",
+  defaultTitle: "Lucy Mae Tan | Software Developer Portfolio",
   titleTemplate: "%s | Lucy Mae Tan",
-  description: "Full Stack Developer specializing in Next.js, Angular, Tailwind, TypeScript, and modern web technologies. Building innovative web solutions with a focus on performance and user experience.",
+  description: "Software Developer specializing in Next.js, Angular, Tailwind, TypeScript, and modern web technologies. Building innovative web solutions with a focus on performance and user experience.",
   canonical: "https://lucymaetan.com",
   openGraph: {
     type: "website",
@@ -16,7 +16,7 @@ export const seoConfig = {
     }
   },
   keywords: [
-    "Full Stack Developer",
+    "Software Developer",
     "Web Developer",
     "Next.js Developer",
     "TypeScript",
@@ -28,14 +28,14 @@ export const seoConfig = {
     "Portfolio",
     "Angular Developer",
     "Tailwind Developer",
-    "Full Stack Developer",
+    "Software Developer",
     "Web Developer",
     "Lucy Mae Tan",
     "Web Development",
     "Lucy Mae Tan Portfolio",
-    "Lucy Mae Tan Full Stack Developer",
-    "Lucy Mae Tan Full Stack Developer Portfolio",
-    "Lucy Mae Tan Full Stack Developer Portfolio",
+    "Lucy Mae Tan Software Developer",
+    "Lucy Mae Tan Software Developer Portfolio",
+    "Lucy Mae Tan Software Developer Portfolio",
   ],
   alternates: {
     canonical: "https://lucymaetan.com",
